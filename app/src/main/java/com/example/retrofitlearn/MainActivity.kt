@@ -52,6 +52,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 //
 //
 //        getCustomPosts(2, "id", "desc")
+
         binding.btnGet.setOnClickListener(this)
         getCustomPosts2()
         getCustomPosts()
