@@ -1,8 +1,9 @@
 package com.example.retrofitlearn.repository
 
 import com.example.retrofitlearn.api.ApiInstance
-import com.example.retrofitlearn.model.posts.Posts
 import com.example.retrofitlearn.model.PostsWithoutArrayModel
+import com.example.retrofitlearn.model.posts.Posts
+import com.example.retrofitlearn.model.soal.SoalTest
 import retrofit2.Response
 
 class Repository {
@@ -27,8 +28,18 @@ class Repository {
         return ApiInstance.api.pushPost(post)
     }
 
-    suspend fun pushPost2(userId: Int, id: Int, title: String, body: String): Response<PostsWithoutArrayModel> {
+    suspend fun pushPost2(
+        userId: Int,
+        id: Int,
+        title: String,
+        body: String
+    ): Response<PostsWithoutArrayModel> {
         return ApiInstance.api.pushPost2(userId, id, title, body)
+    }
+
+    // untuk soal netha
+    suspend fun getTest(): Response<SoalTest> {
+        return ApiInstance.soalApi.getTest()
     }
 
 }

@@ -3,14 +3,11 @@ package com.example.retrofitlearn
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.retrofitlearn.adapter.PostAdapter
 import com.example.retrofitlearn.databinding.ActivityMainBinding
-import com.example.retrofitlearn.model.PostsWithoutArrayModel
 import com.example.retrofitlearn.model.posts.Posts
 import com.example.retrofitlearn.repository.Repository
 
@@ -34,19 +31,29 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         val repository = Repository()
         val viewModelFactory = MainViewModelFactory(repository)
         viewModel = ViewModelProvider(this, viewModelFactory).get(MainViewModel::class.java)
-        viewModel.pushPost2(2, 2, "Boboy", "Software Developer")
-        viewModel.postsWithPathResponse.observe(this, Observer {
-            if(it.isSuccessful) {
-                Log.d("Main", it.body().toString())
-                Log.d("Main", it.code().toString())
-                Log.d("Main", "mantap")
-            }else {
-                Toast.makeText(this, it.code(), Toast.LENGTH_SHORT).show()
+        viewModel.getTest()
+        viewModel.takeQuis.observe(this, {
+            if (it.isSuccessful) {
+                Log.d(tag, it.body().toString())
+                Log.d(tag, it.code().toString())
+                Log.d(tag, it.headers().toString())
+            } else {
+                Log.d(tag, it.headers().toString())
             }
         })
-
-
-        getCustomPosts(2, "id", "desc")
+//        viewModel.pushPost2(2, 2, "Boboy", "Software Developer")
+//        viewModel.postsWithPathResponse.observe(this, Observer {
+//            if(it.isSuccessful) {
+//                Log.d("Main", it.body().toString())
+//                Log.d("Main", it.code().toString())
+//                Log.d("Main", "mantap")
+//            }else {
+//                Toast.makeText(this, it.code(), Toast.LENGTH_SHORT).show()
+//            }
+//        })
+//
+//
+//        getCustomPosts(2, "id", "desc")
         binding.btnGet.setOnClickListener(this)
         if (savedInstanceState != null) {
             val result = savedInstanceState.getString(STATE_RESULT)

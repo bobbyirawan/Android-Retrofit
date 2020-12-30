@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.retrofitlearn.model.PostsWithoutArrayModel
 import com.example.retrofitlearn.model.posts.Posts
+import com.example.retrofitlearn.model.soal.SoalTest
 import com.example.retrofitlearn.repository.Repository
 import kotlinx.coroutines.launch
 import retrofit2.Response
@@ -15,6 +16,15 @@ class MainViewModel(private val repository: Repository) : ViewModel() {
     val postsWithPathResponse: MutableLiveData<Response<PostsWithoutArrayModel>> = MutableLiveData()
     val customPostsResponse: MutableLiveData<Response<Posts>> = MutableLiveData()
     val customPostsResponse2: MutableLiveData<Response<Posts>> = MutableLiveData()
+
+    // get soal netha
+    val takeQuis: MutableLiveData<Response<SoalTest>> = MutableLiveData()
+    fun getTest() {
+        viewModelScope.launch {
+            val response = repository.getTest()
+            takeQuis.value = response
+        }
+    }
 
     //    post
     fun pushPost(post: PostsWithoutArrayModel) {

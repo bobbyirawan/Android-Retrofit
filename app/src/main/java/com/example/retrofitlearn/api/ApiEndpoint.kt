@@ -2,6 +2,7 @@ package com.example.retrofitlearn.api
 
 import com.example.retrofitlearn.model.PostsWithoutArrayModel
 import com.example.retrofitlearn.model.posts.Posts
+import com.example.retrofitlearn.model.soal.SoalTest
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -50,5 +51,9 @@ interface ApiEndpoint {
         @Field("id") id: Int,
         @Field("title") title: String,
         @Field("body") body: String
-        ): Response<PostsWithoutArrayModel>
+    ): Response<PostsWithoutArrayModel>
+
+    // untuk soal netha
+    @GET("test")
+    suspend fun getTest(): Response<SoalTest>
 }
