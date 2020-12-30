@@ -63,7 +63,7 @@ class MainViewModel(private val repository: Repository) : ViewModel() {
         }
     }
 
-    fun getCustomPosts(userId: Int, options: Map<String, String>) {
+    fun getCustomPosts2(userId: Int, options: Map<String, String>) {
         viewModelScope.launch {
             val response = repository.getCustomPosts2(userId, options)
             customPostsResponse2.value = response

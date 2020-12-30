@@ -18,10 +18,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var binding: ActivityMainBinding
     private val postAdapter by lazy { PostAdapter() }
 
-    companion object {
-        private const val STATE_RESULT = "state_result"
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -41,6 +37,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 Log.d(tag, it.headers().toString())
             }
         })
+
+
 //        viewModel.pushPost2(2, 2, "Boboy", "Software Developer")
 //        viewModel.postsWithPathResponse.observe(this, Observer {
 //            if(it.isSuccessful) {
@@ -55,30 +53,22 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 //
 //        getCustomPosts(2, "id", "desc")
         binding.btnGet.setOnClickListener(this)
-        if (savedInstanceState != null) {
-            val result = savedInstanceState.getString(STATE_RESULT)
-            binding.tvResponseText.text = result
-        }
+        getCustomPosts2()
+        getCustomPosts()
 
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putString(STATE_RESULT, binding.tvResponseText.text.toString())
     }
 
     override fun onClick(v: View) {
         if (v.id == R.id.btn_get) {
             val number = binding.edtNumberPath.text.toString()
 
-            getCustomPosts(Integer.parseInt(number), "id", "asc")
-
-            getDataPostsWithPath(Integer.parseInt(number))
-
             val options: HashMap<String, String> = HashMap()
             options["_sort"] = "id"
             options["_order"] = "desc"
-            getCustomPosts2(Integer.parseInt(number), options)
+            viewModel.getCustomPosts2(Integer.parseInt(number), options)
+            getCustomPosts2()
+            viewModel.getCustomPosts(Integer.parseInt(number), "id", "asc")
+            getCustomPosts()
         }
     }
 
@@ -109,12 +99,11 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         })
     }
 
-    private fun getCustomPosts(number: Int, sort: String, order: String) {
-        viewModel.getCustomPosts(number, sort, order)
+    private fun getCustomPosts() {
         viewModel.customPostsResponse.observe(this, { response ->
             if (response.isSuccessful) {
                 val result = response.body()
-                binding.tvResponseText.text = result.toString()
+//                binding.tvResponseText.text = result.toString()
                 result?.let { postAdapter.setData(it) }
                 showPosts(result!!)
             } else {
@@ -123,8 +112,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         })
     }
 
-    private fun getCustomPosts2(number: Int, options: Map<String, String>) {
-        viewModel.getCustomPosts(number, options)
+    private fun getCustomPosts2() {
         viewModel.customPostsResponse2.observe(this, { response ->
             if (response.isSuccessful) {
                 val result = response.body()
