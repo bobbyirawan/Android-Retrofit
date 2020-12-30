@@ -92,11 +92,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             if (response.isSuccessful) {
                 val result = response.body().toString()
                 binding.tvResponseText.text = result
-
             } else {
                 showLog(response.errorBody().toString())
             }
-
         })
     }
 
@@ -104,7 +102,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         viewModel.customPostsResponse.observe(this, { response ->
             if (response.isSuccessful) {
                 val result = response.body()
-//                binding.tvResponseText.text = result.toString()
                 result?.let { postAdapter.setData(it) }
                 showPosts(result!!)
             } else {
